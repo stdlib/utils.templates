@@ -1,6 +1,6 @@
 {
   "name": "templates",
-  "version": "0.0.6",
+  "version": "0.1.0",
   "description": "Service",
   "author": "stdlib <keith@stdlib.com>",
   "main": "f/package/index.js",
