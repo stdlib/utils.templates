@@ -1,0 +1,13 @@
+{
+  "name": "static",
+  "description": "Retrieves files from your static directory.",
+  "args": [],
+  "kwargs": {
+    "path": "The path to the retrieved file, relative to the static directory."
+  },
+  "http": {
+    "headers": {
+      "Content-Type": "text/html"
+    }
+  }
+}

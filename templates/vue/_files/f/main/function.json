@@ -1,0 +1,11 @@
+{
+  "name": "main",
+  "description": "Retrieves your index.html or env variables",
+  "args": [],
+  "kwargs": {},
+  "http": {
+    "headers": {
+      "Content-Type": "text/html"
+    }
+  }
+}

@@ -1,0 +1,32 @@
+$link-font-size: 14px;
+
+body {
+  font-family: 'Arial', 'Helvetica';
+  color: #222;
+  width: 800px;
+  margin: 0px auto;
+  padding: 10px;
+}
+
+p {
+  font-size: 14px;
+  line-height: 24px;
+}
+
+li {
+  font-size: 14px;
+  line-height: 24px;
+  margin: 5px 0px;
+}
+
+pre {
+  font-size: 12px;
+  line-height: 16px;
+  display: inline-block;
+  margin: 0px 2px;
+  padding: 0px 4px;
+  background-color: #f4f4f4;
+  color: #333;
+  border: 1px solid #d8d8d8;
+  border-radius: 2px;
+}

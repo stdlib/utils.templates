@@ -1,0 +1,22 @@
+{
+  "name": "templates",
+  "version": "0.0.6",
+  "description": "Service",
+  "author": "stdlib <keith@stdlib.com>",
+  "main": "f/package/index.js",
+  "dependencies": {},
+  "private": true,
+  "stdlib": {
+    "name": "stdlib/templates",
+    "defaultFunction": "package",
+    "timeout": 10000,
+    "publish": true,
+    "scripts": {
+      "preup": "node ./compile.js"
+    }
+  },
+  "devDependencies": {
+    "async": "^2.1.4",
+    "tar-stream": "^1.5.2"
+  }
+}
