@@ -7,12 +7,13 @@
   "dependencies": {},
   "private": true,
   "stdlib": {
-    "name": "stdlib/templates",
+    "name": "utils/templates",
     "defaultFunction": "package",
     "timeout": 10000,
     "publish": true,
     "scripts": {
-      "preup": "node ./compile.js"
+      "preup": "node ./compile.js",
+      "prehttp": "node ./compile.js"
     }
   },
   "devDependencies": {
