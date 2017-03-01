@@ -1,0 +1,4 @@
+/node_modules
+/scripts/gactions/action.json
+/creds.data
+env.json

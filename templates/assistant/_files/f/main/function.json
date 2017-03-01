@@ -1,0 +1,13 @@
+{
+  "name": "main",
+  "description": "Function",
+  "args": [
+    "Intent Name"
+  ],
+  "kwargs": {
+    "*": "Query Variables"
+  },
+  "http": {
+    "headers": {}
+  }
+}

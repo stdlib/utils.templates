@@ -1,0 +1,14 @@
+{
+  "dependencies": {
+    "lib": "^2.1.1"
+  },
+  "stdlib": {
+    "scripts": {
+      "preup": "node ./scripts/preview.js"
+    },
+    "assistant": {
+      "name": "my assistant",
+      "voice": "male_1"
+    }
+  }
+}
