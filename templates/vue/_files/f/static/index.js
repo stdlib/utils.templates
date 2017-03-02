@@ -7,6 +7,10 @@ let staticFiles = helper.readFiles(filepath);
 
 module.exports = (params, callback) => {
 
+  if (params.env === 'dev') {
+    staticFiles = helper.readFiles(filepath);
+  }
+
   let path = params.kwargs.path;
   let contentType = 'text/plain';
   let buffer;
