@@ -1,0 +1,16 @@
+{
+  "name": "commands",
+  "description": "Webhook for Slack Slash Commands",
+  "args": [],
+  "kwargs": {
+    "token": "Slack request confirmation token",
+    "command": "Slash command",
+    "channel": "Channel to post to",
+    "text": "Text content",
+    "user": "Username",
+    "team_id": "Team ID"
+  },
+  "http": {
+    "headers": {}
+  }
+}
