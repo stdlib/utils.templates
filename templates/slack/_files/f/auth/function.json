@@ -1,0 +1,11 @@
+{
+  "name": "auth",
+  "description": "OAuth Success / Failure Page",
+  "args": [],
+  "kwargs": {},
+  "http": {
+    "headers": {
+      "Content-Type": "text/html"
+    }
+  }
+}

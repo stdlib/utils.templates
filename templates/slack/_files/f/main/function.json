@@ -1,0 +1,11 @@
+{
+  "name": "main",
+  "description": "Add to Slack Landing Page",
+  "args": [],
+  "kwargs": {},
+  "http": {
+    "headers": {
+      "Content-Type": "text/html"
+    }
+  }
+}

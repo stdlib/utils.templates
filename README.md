@@ -27,20 +27,27 @@ running for you.
 
 ## Development
 
-To develop a new StdLib template, simply clone this repo and run `lib http`
-from the root directory. Add files to `templates/<template>/_files`.
-Add `package.json` desired fields (additive to base `package.json`) using
-`templates/<template>/package.json`.
-
-You'll have to restart the StdLib daemon by running `lib http` if you want
-to test your template.
+To develop a new StdLib template, simply clone this repo, run 'npm install'
+and then run `lib http` from the root directory. Add files to
+`templates/<template>/_files`. Add `package.json` desired fields (additive to
+base `package.json`) using `templates/<template>/package.json`.
 
 To make sure your template will work with StdLib, in another terminal window,
-run (assuming you're running on `localhost:8170`):
+create a new directory for your app and run (assuming you're running the
+template server on `localhost:8170`):
 
 ```bash
+$ lib init
 $ lib create -t <template> -d localhost:8170
 ```
+
+This will create a new app based on the template by pulling it from the 'lib http'
+process. From there you can run 'lib http -p 8080' to test the new app instance via
+localhost:8080.
+
+If you make changes to your template then restart the 'lib http' process running
+under utils.templates, delete your app instance and recreate it by running the
+'lib create -t ...' command again.
 
 Once your template is ready for development, open up a Pull Request here and
 we'll be happy to verify that it works and add it in! Also, please remember to
@@ -56,6 +63,14 @@ for more information.
 
 ```bash
 $ lib create -t alexa
+```
+
+### Slack Apps
+
+Slack Apps are supported via `slack`.
+
+```bash
+$ lib create -t slack
 ```
 
 ### Vue.js
