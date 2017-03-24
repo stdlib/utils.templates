@@ -28,7 +28,7 @@ module.exports = (token, channel, text, callback) => {
 
   request.post({
     uri: 'https://slack.com/api/chat.postMessage',
-    form: formatMessage(token, channel, text)
+    form: data
   }, (err, result) => {
 
     if (err) {
