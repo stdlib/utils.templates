@@ -15,7 +15,7 @@ const CACHE = {};
 
 module.exports = {
   setTeam: (teamId, value, callback) => {
-    lib.utils.storage['@dev'].set(formatTeamKey(teamId), value, (err, value) => {
+    lib.utils.storage.set(formatTeamKey(teamId), value, (err, value) => {
       if (!err) {
         CACHE[teamId] = value;
       }
@@ -26,7 +26,7 @@ module.exports = {
     if (CACHE[teamId]) {
       return callback(null, CACHE[teamId]);
     }
-    lib.utils.storage['@dev'].get(formatTeamKey(teamId), (err, value) => {
+    lib.utils.storage.get(formatTeamKey(teamId), (err, value) => {
       if (!err) {
         CACHE[teamId] = value;
       }
