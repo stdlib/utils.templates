@@ -1,6 +1,6 @@
 {
   "name": "main",
-  "description": "Function",
+  "description": "Google Assistant Action Handler",
   "args": [
     "Intent Name"
   ],

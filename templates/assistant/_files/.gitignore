@@ -1,4 +1,3 @@
 /node_modules
-/scripts/gactions/action.json
-/creds.data
+/assistant.json
 env.json

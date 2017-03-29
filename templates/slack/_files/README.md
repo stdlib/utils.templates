@@ -1,7 +1,12 @@
 # Your StdLib Slack App
 
-Welcome to your StdLib Slack template! Here we'll walk you through how
-StdLib works, your Slack endpoints, and how to handle Slack Events.
+Welcome to your StdLib Slack template!
+
+If you're not sure what StdLib ("Standard Library") is, please check out
+https://stdlib.com.
+
+Here we'll walk you through how StdLib works, your Slack App endpoints,
+and how to handle Slack Slash Commands and Events.
 
 # Your Project
 
@@ -163,6 +168,16 @@ text content of the message, and `callback` is a function that should be
 invoked to end the bot's response expecting `err, text` (see: Slash Command
   `callback` above for usage expectations re: `chat.postMessage`.)
 
+## Function: f/handler
+
+This is merely an asynchronously called delegator from `f/commands` and `f/events`
+to `slack/handlers/command_handler.js` and `slack/handlers/event_handler.js`.
+
+It exists so that your main endpoints, `f/commands` and `f/events` can return
+HTTP 200 OK responses as quickly as possible (no failure as far as Slack is
+  concerned) and offload further processing in a new instance without having to
+  worry about total response time.
+
 # Utilities
 
 This Slack App template comes with some utility function in `slack/utils`.
@@ -226,6 +241,3 @@ multiple teams.
 
 Hope that served as a welcoming (though very referential!) introduction to your
 Slack App project scaffold on [StdLib](https://stdlib.com) --- happy building!
-
-
-You

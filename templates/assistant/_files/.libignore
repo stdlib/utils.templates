@@ -1,2 +1,3 @@
+/node_modules
+/assistant.json
 /scripts
-/creds.data
