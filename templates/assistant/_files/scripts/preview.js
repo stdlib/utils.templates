@@ -15,6 +15,12 @@ async.waterfall([
   console.log();
   console.log(`${chalk.bold.green('Success!')} Your Google Assistant, ${chalk.bold.green(deployment.assistant.name)}, is ready for preview.`);
   console.log();
+  console.log(`To simulate from the command line, try:`);
+  console.log(`  node simulate.js`);
+  console.log();
+  console.log('Or you can visit:');
+  coonsole.log(`  ${chalk.underline('https://developers.google.com/actions/tools/web-simulator')}`);
+  console.log();
   return deployment.complete();
 
 });
