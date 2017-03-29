@@ -1,6 +1,6 @@
 {
   "name": "templates",
-  "version": "0.1.6",
+  "version": "0.1.7",
   "description": "The Official Template Repository for StdLib",
   "author": "stdlib <keith@stdlib.com>",
   "main": "f/package/index.js",

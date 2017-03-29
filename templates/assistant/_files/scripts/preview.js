@@ -19,7 +19,7 @@ async.waterfall([
   console.log(`  node simulate.js`);
   console.log();
   console.log('Or you can visit:');
-  coonsole.log(`  ${chalk.underline('https://developers.google.com/actions/tools/web-simulator')}`);
+  console.log(`  ${chalk.underline('https://developers.google.com/actions/tools/web-simulator')}`);
   console.log();
   return deployment.complete();
 
