@@ -12,6 +12,9 @@
       handler in /slack/actions (minus the extension). This bot will then run
       the appropriate action handler when it receives a request.
 
+    You can test from the command line using:
+      lib .actions --action ACTION --channel CHANNEL [--user USER --callback_id CALLBACK_ID --value VALUE --team_id TEAM_ID]
+
     For more about interactive messages and how to respond to them, see Slack's
       documentation: https://api.slack.com/docs/message-buttons
 */
@@ -31,13 +34,22 @@ module.exports = (params, callback) => {
     }
 
   } else {
+    // Testing purposes
     action = {
       channel: params.kwargs.channel,
       actions: [
         {
-          name: params.kwargs.action
+          name: params.kwargs.action,
+          value: params.kwargs.value
         }
-      ]
+      ],
+      callback_id: params.kwargs.callback_id,
+      team: {
+        team_id: params.kwargs.team_id
+      },
+      user: {
+        name: params.kwargs.user
+      }
     };
   }
 
