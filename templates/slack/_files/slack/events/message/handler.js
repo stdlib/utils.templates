@@ -18,12 +18,14 @@
 
 const fs = require('fs');
 const path = require('path');
-const subtypes = fs.readdirSync(path.join(__dirname, 'subtypes'))
-  .reduce((subtypes, filename) => {
-    let name = filename.substr(0, filename.lastIndexOf('.js'));
-    subtypes[name] = require(path.join(__dirname, 'subtypes', filename));
-    return subtypes;
-  }, {});
+const subtypes = fs.existsSync(path.join(__dirname, 'subtypes')) &&
+  fs.lstatSync(path.join(__dirname, 'subtypes')).isDirectory() &&
+  fs.readdirSync(path.join(__dirname, 'subtypes'))
+    .reduce((subtypes, filename) => {
+      let name = filename.substr(0, filename.lastIndexOf('.js'));
+      subtypes[name] = require(path.join(__dirname, 'subtypes', filename));
+      return subtypes;
+    }, {});
 
 /**
 * @param {String} token The bot token for the Slack App
