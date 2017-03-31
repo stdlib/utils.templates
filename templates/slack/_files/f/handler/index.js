@@ -26,14 +26,16 @@ const findHandledEvents = function() {
   let eventsDirPath = path.join(__dirname, '..', '..', 'slack', 'events');
   return fs.readdirSync(eventsDirPath).reduce((handledEvents, filename) => {
     let eventHandlerDirPath = path.join(eventsDirPath, filename);
-    if (fs.lstatSync(eventHandlerDirPath).isDirectory()) {
-      if (fs.existsSync(path.join(eventHandlerDirPath, 'handler.js'))) {
-        handledEvents[filename] = findHandledEventSubtypes(eventHandlerDirPath);
-      }
+    if (
+      fs.lstatSync(eventHandlerDirPath).isDirectory() &&
+      fs.existsSync(path.join(eventHandlerDirPath, 'handler.js'))
+    ) {
+      handledEvents[filename] = findHandledEventSubtypes(eventHandlerDirPath);
     }
     return handledEvents;
   }, {});
 };
+
 const findHandledEventSubtypes = function(eventHandlerDirPath) {
   let subtypesDirPath = path.join(eventHandlerDirPath, 'subtypes');
   if (fs.existsSync(subtypesDirPath) && fs.lstatSync(subtypesDirPath).isDirectory()) {
@@ -46,7 +48,8 @@ const findHandledEventSubtypes = function(eventHandlerDirPath) {
     return {};
   }
 };
-let handledEvents = findHandledEvents();
+
+const handledEvents = findHandledEvents();
 
 module.exports = (params, callback) => {
 
@@ -68,7 +71,7 @@ module.exports = (params, callback) => {
       !handledEvents[event.type] ||
       (event.subtype && !handledEvents[event.type][event.subtype])
     ) {
-      return callback(new Error('Specified event type or subtype not handled'));
+      return callback(null, null);
     }
 
     tokenize(EventHandler, teamId, kwargs, callback);
