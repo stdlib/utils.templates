@@ -4,7 +4,7 @@
   REQUIRED SCOPE: bot,commands,chat:write:bot,chat:write:user
   OPTIONAL SCOPE: files:write:user
 
-  This will route your command to the appropriate named command in /names
+  This will route your command to the appropriate named command in /commands
   If a command isn't recognized, it will execute a fallback
 
   Details on the {command} object can be found here:

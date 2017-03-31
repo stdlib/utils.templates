@@ -17,6 +17,7 @@ const tokenize = require('./tokenize.js');
 
 const CommandHandler = require('../../slack/handlers/command_handler.js');
 const EventHandler = require('../../slack/handlers/event_handler.js');
+const ActionHandler = require('../../slack/handlers/action_handler.js');
 
 module.exports = (params, callback) => {
 
@@ -30,6 +31,7 @@ module.exports = (params, callback) => {
 
   let event = kwargs.event;
   let command = kwargs.command;
+  let action = kwargs.action;
 
   if (event) {
 
@@ -39,9 +41,13 @@ module.exports = (params, callback) => {
 
     tokenize(CommandHandler, teamId, kwargs, callback);
 
+  } else if (action) {
+
+    tokenize(ActionHandler, teamId, kwargs, callback);
+
   } else {
 
-    return callback(new Error('No command or event specified'));
+    return callback(new Error('No command, event, or action specified'));
 
   }
 
