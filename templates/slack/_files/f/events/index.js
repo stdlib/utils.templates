@@ -6,6 +6,9 @@
       (via callback(null, data)) response as quickly as possible to tell Slack
       you've received the event. It then sends an async webhooked request to
       StdLib to continue the operations of the bot.
+
+    You can test from the command line using:
+      lib .events --event EVENT --subtype SUBTYPE --text TEXT --channel CHANNEL [--user USER]
 */
 
 const lib = require('lib');

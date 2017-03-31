@@ -7,7 +7,7 @@
 
 function ExampleActionHandler(token, action, callback) {
 
-  callback(null, 'You responded to the example action');
+  callback(null, `<@${action.user.name}> responded to the example action`);
 
 };
 
