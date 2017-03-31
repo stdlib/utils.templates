@@ -22,32 +22,6 @@ const ActionHandler = require('../../slack/handlers/action_handler.js');
 const fs = require('fs');
 const path = require('path');
 
-const findHandledEvents = function() {
-  let eventsDirPath = path.join(__dirname, '..', '..', 'slack', 'events');
-  return fs.readdirSync(eventsDirPath).reduce((handledEvents, filename) => {
-    let eventHandlerDirPath = path.join(eventsDirPath, filename);
-    if (fs.lstatSync(eventHandlerDirPath).isDirectory()) {
-      if (fs.existsSync(path.join(eventHandlerDirPath, 'handler.js'))) {
-        handledEvents[filename] = findHandledEventSubtypes(eventHandlerDirPath);
-      }
-    }
-    return handledEvents;
-  }, {});
-};
-const findHandledEventSubtypes = function(eventHandlerDirPath) {
-  let subtypesDirPath = path.join(eventHandlerDirPath, 'subtypes');
-  if (fs.existsSync(subtypesDirPath) && fs.lstatSync(subtypesDirPath).isDirectory()) {
-    return fs.readdirSync(subtypesDirPath).reduce((handledSubtypes, filename) => {
-      let name = filename.substr(0, filename.lastIndexOf('.js'));
-      handledSubtypes[name] = true;
-      return handledSubtypes;
-    }, {});
-  } else {
-    return {};
-  }
-};
-let handledEvents = findHandledEvents();
-
 module.exports = (params, callback) => {
 
   let kwargs = params.kwargs;
@@ -63,13 +37,6 @@ module.exports = (params, callback) => {
   let action = kwargs.action;
 
   if (event) {
-
-    if (
-      !handledEvents[event.type] ||
-      (event.subtype && !handledEvents[event.type][event.subtype])
-    ) {
-      return callback(new Error('Specified event type or subtype not handled'));
-    }
 
     tokenize(EventHandler, teamId, kwargs, callback);
 
