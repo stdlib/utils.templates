@@ -13,9 +13,6 @@ const CommandHandler = require('../../slack/handlers/command_handler.js');
 const EventHandler = require('../../slack/handlers/event_handler.js');
 const ActionHandler = require('../../slack/handlers/action_handler.js');
 
-const fs = require('fs');
-const path = require('path');
-
 module.exports = (params, callback) => {
 
   let kwargs = params.kwargs;
