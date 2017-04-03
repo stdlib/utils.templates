@@ -1,0 +1,11 @@
+{
+  "name": "actions",
+  "description": "Webhook for Slack Actions (Interactive Messages)",
+  "args": [],
+  "kwargs": {},
+  "http": {
+    "headers": {
+      "Content-Type": "text/html"
+    }
+  }
+}
