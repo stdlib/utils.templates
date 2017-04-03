@@ -232,7 +232,7 @@ follows:
 const slack = require('slack');
 
 slack.chat.postMessage({
- token: env.BOT_TOKEN,
+ token: process.env.BOT_TOKEN,
  channel: '#general',
  text: 'Respond to this',
  attachments: [{
