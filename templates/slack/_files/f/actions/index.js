@@ -34,7 +34,7 @@ module.exports = (params, callback) => {
     }
 
   } else {
-    // Testing purposes
+    // For ease-of-use CLI testing, if necessary
     action = {
       channel: params.kwargs.channel,
       actions: [

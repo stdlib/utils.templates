@@ -1,5 +1,5 @@
 /**
-  Slack Update Message Response
+  Slack Update Message
 
   Updates a message specified by channel and ts
   For full documentation see: https://api.slack.com/methods/chat.update
