@@ -225,7 +225,32 @@ attach the token, ts, and channel params for you). You can also restore the
 original message in case of an error by returning Slack's `original_message`
 parameter, which will be present in the `action` parameter.
 
-You can test the example action on your command line by running:
+You could create a interactive message that would trigger this handler as
+follows:
+
+```javascript
+const slack = require('slack');
+
+slack.chat.postMessage({
+ token: process.env.BOT_TOKEN,
+ channel: '#general',
+ text: 'Respond to this',
+ attachments: [{
+   text: 'Here is the action:',
+   actions: [
+     {
+       name: 'example',
+       text: 'Press me',
+       type: 'button'
+     }
+   ]
+ }]
+}, (err, result) => {
+ // Handle result
+});
+```
+
+You can test the example action locally from your command line by running:
 `lib .actions --action example --channel general --user user`.
 
 ## Function: functions/handler
