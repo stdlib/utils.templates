@@ -3,10 +3,10 @@ var webpack = require('webpack');
 
 module.exports = {
   entry: {
-    main: './app/vue/main.js'
+    main: path.join(__dirname, 'app/vue/main.js')
   },
   output: {
-    path: './app/static',
+    path: path.join(__dirname, 'app/static'),
     filename: '[name].js'
   },
   stats: {
