@@ -14,9 +14,7 @@
 const lib = require('lib');
 
 const EventCache = require('./event_cache.js');
-const SupportedEventTypesCache = require('./supported_event_types_cache.js');
 const Cache = new EventCache(60000);
-const SupportedEventTypes = new SupportedEventTypesCache();
 
 module.exports = (params, callback) => {
 
@@ -51,11 +49,6 @@ module.exports = (params, callback) => {
   // Dedupe events from Slack's retry policy
   if (!Cache.add(event)) {
     return callback(null, {error: 'Event duplication limit reached'});
-  }
-
-  // Ignore the event if the type is not supported
-  if (!SupportedEventTypes.check(event.type, event.subtype)) {
-    return callback(null, null);
   }
 
   // Format service name for router

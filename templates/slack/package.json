@@ -1,4 +1,7 @@
 {
+  "stdlib": {
+    "build": "faaslang"
+  },
   "dependencies": {
     "lib": "^2.2.4",
     "mime": "^1.3.4",
