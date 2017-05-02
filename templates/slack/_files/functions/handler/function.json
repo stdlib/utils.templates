@@ -1,9 +1,0 @@
-{
-  "name": "handler",
-  "description": "Asynchronous General Slack Slash Command and Event Handler",
-  "args": [],
-  "kwargs": {},
-  "http": {
-    "headers": {}
-  }
-}

@@ -13,9 +13,12 @@
 
 const lib = require('lib');
 
-module.exports = (params, callback) => {
+/**
+* @returns {object}
+*/
+module.exports = (context, callback) => {
 
-  let command = params.kwargs;
+  let command = context.params;
 
   if (!command.command) {
     return callback(null, {error: 'No command specified'});
@@ -26,19 +29,15 @@ module.exports = (params, callback) => {
   }
 
   command.name = command.command.substr(1);
-  command.channel = command.channel_id || params.kwargs.channel;
-  command.user = command.user_id || params.kwargs.user;
-  command.text = command.text || params.kwargs.text;
+  command.channel = command.channel_id || command.channel;
+  command.user = command.user_id || command.user;
+  command.text = command.text;
 
-  // Format service name for router
-  let service = params.service.replace(/\//gi, '.');
-  service = service === '.' ? service : `${service}[@${params.env}].`;
-
-  // Setting webhook: true allows for async handling by StdLib
-  lib({webhook: true})[`${service}handler`](
+  // Setting background: true allows for async handling by StdLib
+  lib({backgroundk: true}).x.y[context.identifier].handler(
     {
-      token: params.kwargs.token,
-      team_id: params.kwargs.team_id,
+      token: command.token,
+      team_id: command.team_id,
       channel: command.channel,
       command: command
     },

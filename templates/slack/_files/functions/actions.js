@@ -21,48 +21,52 @@
 
 const lib = require('lib');
 
-module.exports = (params, callback) => {
+/**
+* Webhook for Slack Actions (Interactive Messages)
+* @param {string} channel Channel Name (Local Testing)
+* @param {string} action Action Name (Local Testing)
+* @param {string} value Action Value (Local Testing)
+* @param {string} callback_id Callback ID (Local Testing)
+* @param {string} team_id Team ID (Local Testing)
+* @param {string} user Username (Local Testing)
+* @param {object} payload The payload for the action
+* @returns {any}
+*/
+module.exports = (
+  channel = '#general',
+  action = '',
+  value = '',
+  callback_id = '',
+  team_id = '',
+  user = '',
+  payload = null,
+  context,
+  callback
+) => {
 
-  let action;
-
-  if (params.kwargs.payload) {
-
-    try {
-      action = JSON.parse(params.kwargs.payload);
-    } catch (e) {
-      return callback(null, {error: 'Could not parse action payload'});
-    }
-
-  } else {
-    // For ease-of-use CLI testing, if necessary
-    action = {
-      channel: params.kwargs.channel,
-      actions: [
-        {
-          name: params.kwargs.action,
-          value: params.kwargs.value
-        }
-      ],
-      callback_id: params.kwargs.callback_id,
-      team: {
-        team_id: params.kwargs.team_id
-      },
-      user: {
-        name: params.kwargs.user
+  let action = payload || {
+    channel: channel,
+    actions: [
+      {
+        name: action,
+        value: value
       }
-    };
-  }
+    ],
+    callback_id: callback_id,
+    team: {
+      team_id: team_id
+    },
+    user: {
+      name: user
+    }
+  };
 
-  if (!action || !action.actions) {
+  if (!action.actions) {
     return callback(null, {error: 'No actions specified'});
   }
 
-  // Format service name for router
-  let service = params.service.replace(/\//gi, '.');
-  service = service === '.' ? service : `${service}[@${params.env}].`;
-
-  // Setting webhook: true allows for async handling by StdLib
-  lib({webhook: true})[`${service}handler`](
+  // Setting background: true allows for async handling by StdLib
+  lib({background: true}).x.y[context.identifier].handler(
     {
       token: action.token,
       team_id: action.team && action.team.id,

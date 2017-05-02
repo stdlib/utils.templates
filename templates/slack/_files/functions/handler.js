@@ -7,17 +7,13 @@
       message or command handler.
 */
 
-const tokenize = require('./tokenize.js');
+const tokenize = require('../helpers/tokenize.js');
 
 const CommandHandler = require('../../slack/handlers/command_handler.js');
 const EventHandler = require('../../slack/handlers/event_handler.js');
 const ActionHandler = require('../../slack/handlers/action_handler.js');
 
-module.exports = (params, callback) => {
-
-  let kwargs = params.kwargs;
-  let teamId = kwargs.team_id;
-  let channel = kwargs.channel;
+module.exports = (channel = '', team_id = '', event = null, command = null, action = null, context, callback) => {
 
   if (!channel) {
     return callback(new Error('No channel specified'));
@@ -29,15 +25,15 @@ module.exports = (params, callback) => {
 
   if (event) {
 
-    tokenize(EventHandler, teamId, kwargs, callback);
+    tokenize(EventHandler, team_id, context.params, callback);
 
   } else if (command) {
 
-    tokenize(CommandHandler, teamId, kwargs, callback);
+    tokenize(CommandHandler, team_id, context.params, callback);
 
   } else if (action) {
 
-    tokenize(ActionHandler, teamId, kwargs, callback);
+    tokenize(ActionHandler, team_id, context.params, callback);
 
   } else {
 

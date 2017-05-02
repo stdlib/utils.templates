@@ -7,14 +7,12 @@ const storage = require('../../slack/utils/storage.js');
 
 const template = __dirname + '/../../slack/pages/authorized.ejs';
 
-module.exports = (params, callback) => {
+module.exports = (code = null, error = '', callback) => {
 
-  let authCode = params.kwargs.code;
-
-  if (!authCode) {
+  if (!code) {
     return ejs.renderFile(template, {
       message: 'Failure',
-      content: params.kwargs.error || 'No auth code given. Try again?'
+      content: error || 'No auth code given. Try again?'
     }, {}, (err, response) => callback(err, new Buffer(response || '')));
   }
 
@@ -25,7 +23,7 @@ module.exports = (params, callback) => {
         let authAddress = 'https://slack.com/api/oauth.access?'
         authAddress += 'client_id=' + process.env.SLACK_CLIENT_ID
         authAddress += '&client_secret=' + process.env.SLACK_CLIENT_SECRET
-        authAddress += '&code=' + authCode
+        authAddress += '&code=' + code
         authAddress += '&redirect_uri=' + process.env.SLACK_REDIRECT;
 
         request.get(authAddress, function (error, response, body) {

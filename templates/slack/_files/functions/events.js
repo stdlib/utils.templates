@@ -8,38 +8,40 @@
       StdLib to continue the operations of the bot.
 
     You can test from the command line using:
-      lib .events --event EVENT --subtype SUBTYPE --text TEXT --channel CHANNEL [--user USER]
+      lib .events --type EVENT --subtype SUBTYPE --text TEXT --channel CHANNEL [--user USER]
 */
 
 const lib = require('lib');
 
-const EventCache = require('./event_cache.js');
+const EventCache = require('../helpers/event_cache.js');
 const Cache = new EventCache(60000);
 
-module.exports = (params, callback) => {
+/**
+* @returns {object}
+*/
+module.exports = (
+  type = '',
+  subtype = '',
+  text = '',
+  channel = '#general',
+  user = '',
+  challenge = '',
+  event = null,
+  params,
+  callback
+) => {
 
-  if (params.kwargs.challenge) {
+  if (challenge) {
     return callback(null, {challenge: params.kwargs.challenge});
   }
 
-  let event = params.kwargs.event;
-
-  if (typeof event === 'string') {
-
-    // For ease-of-use CLI testing, if necessary
-    event = {
-      type: event,
-      subtype: params.kwargs.subtype,
-      text: params.kwargs.text,
-      channel: params.kwargs.channel,
-      user: params.kwargs.user
-    };
-
-  }
-
-  if (!event) {
-    return callback(null, {error: 'No event or command details specified'});
-  }
+  event = event || {
+    type: type,
+    subtype: subtype,
+    text: text,
+    channel: channel,
+    user: user
+  };
 
   // Dedupe any slash commands that come in via messages.channel that aren't registered
   if (event.text && event.text.startsWith('/')) {
@@ -51,15 +53,11 @@ module.exports = (params, callback) => {
     return callback(null, {error: 'Event duplication limit reached'});
   }
 
-  // Format service name for router
-  let service = params.service.replace(/\//gi, '.');
-  service = service === '.' ? service : `${service}[@${params.env}].`;
-
-  // Setting webhook: true allows for async handling by StdLib
-  lib({webhook: true})[`${service}handler`](
+  // Setting background: true allows for async handling by StdLib
+  lib({background: true}).x.y[context.identifier].handler(
     {
-      token: params.kwargs.token,
-      team_id: params.kwargs.team_id,
+      token: context.params.token,
+      team_id: context.params.team_id,
       channel: event.channel,
       event: event
     },

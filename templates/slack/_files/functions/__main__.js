@@ -7,7 +7,10 @@ const ENV = {
   SLACK_OAUTH_SCOPE: process.env.SLACK_OAUTH_SCOPE || ''
 };
 
-module.exports = (params, callback) => {
+/**
+* Add to Slack landing page
+*/
+module.exports = (callback) => {
 
   ejs.renderFile(template, ENV, {}, (err, response) => callback(err, new Buffer(response || '')));
 
