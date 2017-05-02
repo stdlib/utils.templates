@@ -10,9 +10,12 @@ const files = fs.readdirSync(root).reduce((files, dir) => {
   return files;
 }, {});
 
-module.exports = (params, callback) => {
-
-  let name = params.kwargs.name;
+/**
+* Returns tarball of files for StdLib template
+* @param {string} name The name of the StdLib template
+* @returns {buffer}
+*/
+module.exports = (name, callback) => {
 
   if (!files.hasOwnProperty(name)) {
     return callback(new Error(`No such template: ${name}`));

@@ -16,9 +16,12 @@ const pkgs = fs.readdirSync(root).reduce((pkgs, dir) => {
   return pkgs;
 }, {});
 
-module.exports = (params, callback) => {
-
-  let name = params.kwargs.name;
+/**
+* Returns package.json values for this StdLib template
+* @param {string} name The name of the StdLib template
+* @returns {object}
+*/
+module.exports = (name, callback) => {
 
   if (!pkgs.hasOwnProperty(name)) {
     return callback(new Error(`No such template: ${name}`));
