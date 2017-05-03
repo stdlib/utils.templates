@@ -23,16 +23,16 @@ module.exports = (
   type = '',
   subtype = '',
   text = '',
-  channel = '#general',
+  channel = 'general',
   user = '',
   challenge = '',
   event = null,
-  params,
+  context,
   callback
 ) => {
 
   if (challenge) {
-    return callback(null, {challenge: params.kwargs.challenge});
+    return callback(null, {challenge: challenge});
   }
 
   event = event || {
@@ -54,7 +54,7 @@ module.exports = (
   }
 
   // Setting background: true allows for async handling by StdLib
-  lib({background: true}).x.y[context.identifier].handler(
+  lib({background: true})[`${context.service.identifier}.handler`](
     {
       token: context.params.token,
       team_id: context.params.team_id,

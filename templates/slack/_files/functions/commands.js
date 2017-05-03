@@ -16,9 +16,10 @@ const lib = require('lib');
 /**
 * @returns {object}
 */
-module.exports = (context, callback) => {
+module.exports = (name = '', text = '', channel = '', user = '', context, callback) => {
 
   let command = context.params;
+  command.command = command.command || name;
 
   if (!command.command) {
     return callback(null, {error: 'No command specified'});
@@ -29,16 +30,15 @@ module.exports = (context, callback) => {
   }
 
   command.name = command.command.substr(1);
-  command.channel = command.channel_id || command.channel;
-  command.user = command.user_id || command.user;
-  command.text = command.text;
+  command.channel = channel = command.channel_id || channel;
+  command.user = user = command.user_id || user;
 
   // Setting background: true allows for async handling by StdLib
-  lib({backgroundk: true}).x.y[context.identifier].handler(
+  lib({backgroundk: true})[`${context.service.identifier}.handler`](
     {
       token: command.token,
       team_id: command.team_id,
-      channel: command.channel,
+      channel: channel,
       command: command
     },
     (err, result) => {

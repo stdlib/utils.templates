@@ -1,5 +1,5 @@
 const ejs = require('ejs');
-const template = __dirname + '/../../slack/pages/auth.ejs';
+const template = __dirname + '/../slack/pages/auth.ejs';
 
 const ENV = {
   SLACK_CLIENT_ID: process.env.SLACK_CLIENT_ID || '',
@@ -12,6 +12,8 @@ const ENV = {
 */
 module.exports = (callback) => {
 
-  ejs.renderFile(template, ENV, {}, (err, response) => callback(err, new Buffer(response || '')));
+  ejs.renderFile(template, ENV, {}, (err, response) => {
+    callback(err, new Buffer(response || ''), {'Content-Type': 'text/html'});
+  });
 
 };

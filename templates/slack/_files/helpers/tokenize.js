@@ -1,4 +1,4 @@
-const storage = require('../../slack/utils/storage.js');
+const storage = require('../slack/utils/storage.js');
 
 /**
 * Fetches token from storage

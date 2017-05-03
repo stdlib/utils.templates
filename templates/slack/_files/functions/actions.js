@@ -13,7 +13,7 @@
       the appropriate action handler when it receives a request.
 
     You can test from the command line using:
-      lib .actions --action ACTION --channel CHANNEL [--user USER --callback_id CALLBACK_ID --value VALUE --team_id TEAM_ID]
+      lib .actions --name ACTION --channel CHANNEL [--user USER --callback_id CALLBACK_ID --value VALUE --team_id TEAM_ID]
 
     For more about interactive messages and how to respond to them, see Slack's
       documentation: https://api.slack.com/docs/message-buttons
@@ -23,9 +23,9 @@ const lib = require('lib');
 
 /**
 * Webhook for Slack Actions (Interactive Messages)
-* @param {string} channel Channel Name (Local Testing)
-* @param {string} action Action Name (Local Testing)
+* @param {string} name Action Name (Local Testing)
 * @param {string} value Action Value (Local Testing)
+* @param {string} channel Channel Name (Local Testing)
 * @param {string} callback_id Callback ID (Local Testing)
 * @param {string} team_id Team ID (Local Testing)
 * @param {string} user Username (Local Testing)
@@ -33,9 +33,9 @@ const lib = require('lib');
 * @returns {any}
 */
 module.exports = (
-  channel = '#general',
-  action = '',
+  name = '',
   value = '',
+  channel = 'general',
   callback_id = '',
   team_id = '',
   user = '',
@@ -48,7 +48,7 @@ module.exports = (
     channel: channel,
     actions: [
       {
-        name: action,
+        name: name,
         value: value
       }
     ],
@@ -66,7 +66,7 @@ module.exports = (
   }
 
   // Setting background: true allows for async handling by StdLib
-  lib({background: true}).x.y[context.identifier].handler(
+  lib({background: true})[`${context.service.identifier}.handler`](
     {
       token: action.token,
       team_id: action.team && action.team.id,

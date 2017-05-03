@@ -3,17 +3,25 @@ const request = require('request')
 const async = require('async');
 const ejs = require('ejs');
 
-const storage = require('../../slack/utils/storage.js');
+const storage = require('../slack/utils/storage.js');
 
-const template = __dirname + '/../../slack/pages/authorized.ejs';
+const template = __dirname + '/../slack/pages/authorized.ejs';
 
+/**
+* Authorization HTML Page to Give Slack Bot OAuth Permission
+* @param {string} code Slack-provided authorization code
+* @param {string} error Slack-provided error
+* @returns {any}
+*/
 module.exports = (code = null, error = '', callback) => {
 
   if (!code) {
     return ejs.renderFile(template, {
       message: 'Failure',
       content: error || 'No auth code given. Try again?'
-    }, {}, (err, response) => callback(err, new Buffer(response || '')));
+    }, {}, (err, response) => {
+      callback(err, new Buffer(response || ''), {'Content-Type': 'text/html'});
+    });
   }
 
   async.auto(
@@ -110,12 +118,12 @@ module.exports = (code = null, error = '', callback) => {
       if (err) return ejs.renderFile(template, {
         message: 'Failure',
         content: err && err.message
-      }, {}, (err, response) => callback(err, new Buffer(response || '')));
+      }, {}, (err, response) => callback(err, new Buffer(response || ''), {'Content-Type': 'text/html'}));
 
       ejs.renderFile(template, {
         message: 'Success!',
         content: 'You can now invite the bot to your channels and use it!'
-      }, {}, (err, response) => callback(err, new Buffer(response || '')));
+      }, {}, (err, response) => callback(err, new Buffer(response || ''), {'Content-Type': 'text/html'}));
     }
   );
 
