@@ -50,7 +50,8 @@ class stdlibPlugin {
           destfiles[f] = new Buffer(
             destfiles[f]
               .toString()
-              .replace(/"static\/\?path=(.*?)"/g, (all, g) => filemap[g] ? `"static/?path=${filemap[g]}"` : all)
+              .replace(/"static\/(.*?)"/g, (all, g) => filemap[g] ? `"static/${filemap[g]}"` : `"static/${g}"`)
+              .replace(/'static\/(.*?)'/g, (all, g) => filemap[g] ? `'static/${filemap[g]}'` : `'static/${g}'`)
           );
         }
 

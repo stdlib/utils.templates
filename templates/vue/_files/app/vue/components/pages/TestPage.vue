@@ -4,13 +4,13 @@
       This is some test data.
     </p>
     <p>
-      App name is <strong>{{ appName }}</strong> with an environment variable set
-      as <strong>{{ testValue }}</strong>.
+      App name is <strong>{{ appName }}</strong> with an environment variable
+      called key set to be <strong>{{ testValue }}</strong>.
     </p>
     <p>
       Please note that environment variables are loaded into a
       global <pre>env</pre> variable directly from your <pre>env.json</pre> file
-      in your root directory for your given environment.
+      in your root directory for your given environment -- try setting some values!
     </p>
   </div>
 </template>
