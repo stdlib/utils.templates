@@ -10,17 +10,17 @@ const formatMessage = require('./format_message.js');
 
 module.exports = (url, text, callback) => {
 
+  let data = formatMessage(undefined, undefined, text);
+
   if (!text) {
-    return callback(null, '');
+    return callback(null, data);
   }
 
-  // If no token, assume development
+  // If no url, assume development
   if (!url) {
     console.log('Warning: No url provided for response');
-    return callback(null, text);
+    return callback(null, data);
   }
-
-  let data = formatMessage(undefined, undefined, text);
 
   request.post({
     uri: url,
@@ -38,7 +38,7 @@ module.exports = (url, text, callback) => {
       return callback(new Error(`Invalid Response from Slack: ${result.body}`));
     }
 
-    callback(null, text);
+    callback(null, data);
 
   });
 

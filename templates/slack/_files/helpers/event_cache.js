@@ -18,17 +18,6 @@ class EventCache {
     this.ttl = ttl || 60000;
   }
 
-  uniqid(event) {
-    return event.event_id || [
-      event.team_id || '?',
-      event.event_ts || (
-        event.command ?
-          [event.user_id, event.command, event.text].join('$') :
-          new Date().valueOf()
-      )
-    ].join(':');
-  }
-
   refresh() {
     let t = new Date().valueOf();
     let cache = this.cache;
@@ -49,9 +38,8 @@ class EventCache {
     return cache;
   }
 
-  add(event) {
+  add(event, id) {
     let cache = this.refresh();
-    let id = this.uniqid(event);
     if (cache[id]) {
       return false;
     }

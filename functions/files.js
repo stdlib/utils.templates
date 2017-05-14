@@ -20,7 +20,14 @@ module.exports = (name, callback) => {
   if (!files.hasOwnProperty(name)) {
     return callback(new Error(`No such template: ${name}`));
   } else {
-    callback(null, files[name]);
+    callback(
+      null,
+      files[name],
+      {
+        'Content-Type': 'application/gzip',
+        'Content-Disposition': `attachment; filename=${name}-stdlib-template.tgz`
+      }
+    );
   }
 
 };

@@ -3,12 +3,13 @@ const request = require('request')
 const async = require('async');
 const ejs = require('ejs');
 
-const storage = require('../slack/utils/storage.js');
+const storage = require('../helpers/storage.js');
 
-const template = __dirname + '/../slack/pages/authorized.ejs';
+const template = __dirname + '/../pages/auth.ejs';
 
 /**
-* Authorization HTML Page to Give Slack Bot OAuth Permission
+* Authorization HTML page to grant Slack App OAuth Permission
+*   To modify the template, check out /pages/auth.ejs.
 * @param {string} code Slack-provided authorization code
 * @param {string} error Slack-provided error
 * @returns {any}

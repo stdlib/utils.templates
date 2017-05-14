@@ -13,40 +13,38 @@ messages.
 
 The first thing you'll probably notice is your `functions/` directory. This is
 your StdLib function directory which maps directly to HTTP endpoints. There are
-six main functions in your Slack App:
+four main functions in your Slack App:
 
-- main
-- auth
-- actions
-- commands
-- events
-- handler
+- `__main__.js`
+- `auth.js`
+- `commands/__main__.js`
+- `events/__main__.js`
 
 We'll go through these in the order listed here.
 
-## Function: functions/main
+## Function: `functions/__main__.js`
 
-This is your main endpoint, corresponding to `https://username.stdlib.com/service`
-or (to be explicit) `https://username.stdlib.com/service/main`. This is, of
-course, where `username` is your username and `service` is your service name.
+This is your main endpoint, corresponding to `https://username.stdlib.com/service/`.
+This is, of course, where `username` is your username and `service` is your service
+name.
+
+Any time a function has the filename `__main__.js`, the enclosing folder is
+used as the route name over HTTP. You can think of it like the default function
+for a specific directory.
 
 Note that when pushing to a development environment (or if you want to access
   a specific version), this should be reached via:
   `https://username.stdlib.com/service@dev/main` (if your dev environment is called
-    `dev`, also the default local environment name) or
-    `https://username.stdlib.com/service@0.0.0/main` (if your version is 0.0.0).
-
-The `main` can likely be omitted as it's probably specified as a
-`defaultFunction` in your service based on the `stdlib: defaultFunction` field
-in your `package.json`. (The same is not true of other functions.)
+  `dev`, also the default local environment name) or
+  `https://username.stdlib.com/service@0.0.0/main` (if your version is 0.0.0).
 
 ### Usage
 
-This endpoint generates a template based on the contents of `slack/pages/auth.ejs`,
+This endpoint generates a template based on the contents of `pages/index.ejs`,
 which is modifiable and contains your "Add to Slack" button. It is the easiest
 way to distribute your app to other users.
 
-## Function: functions/auth
+## Function: `functions/auth.js`
 
 This is the OAuth endpoint for your Slack App that verifies another team (or your
   own) has properly validated the slack app.
@@ -54,215 +52,117 @@ This is the OAuth endpoint for your Slack App that verifies another team (or you
 ### Usage
 
 This endpoint processes an OAuth request and returns the contents of
-`slack/pages/authorized.ejs`. (Typically "Success!" if successful.)
+`slack/pages/auth.ejs`. (Typically "Success!" if successful.)
 
-## Function: functions/commands
+## Function: `functions/commands/__main__.js`
 
 This is the main **Command Handler** function for handling Slack Slash Commands.
 You can read more about them here: https://api.slack.com/slash-commands
 
-It triggers the `functions/handler` function with appropriate `command` details,
-asynchronously. Its goal is to return a 200 OK response as quickly
-as possible to avoid command handling duplication, and offload async (longer)
-requests to the logic you've custom-written.
+This function is triggered by slack at the following URL:
+`https://<username>.stdlib.com/<service>@<ver>/commands/:bg`
+
+Where `<username>` is your username, `<service>` is the service name and
+`<ver>` is the environment or semver release of your service. The `:bg`
+indicates you'd like this function to return an HTTP 2XX code as quickly as
+possible and do all processing behind the scenes. (Ideal for Slack.)
 
 ### Usage
 
 To add or modify Slash commands, you'll want to look in the directory
-`slack/commands/` and create files with the name
-`slack/commands/COMMAND_NAME.js` where `COMMAND_NAME` is your intended command,
+`functions/commands/` and create files with the name
+`functions/commands/NAME.js` where `NAME` is your intended command,
 and also add them to your Slash Commands list via Slack's Slash Command interface.
-
-Please note that the functionality here can be traced to
-`/slack/handlers/command_handler.js`.
 
 For the default "hello" command (should be added as `/hello` to your app) you'll
 notice the following boilerplate code:
 
 ```javascript
-function HelloCommandHandler(token, command, text, reply, callback) {
+module.exports = (user, channel, text = '', command = {}, botToken = null, callback) => {
 
-  reply(`Hello, <@${command.user}>...`, (err, result) => {
-
-    return callback(null, `You said: ${text}`);
-
+  callback(null, {
+    response_type: 'in_channel',
+    text: `Hello, <@${user}>...\nYou said: ${text}`
   });
 
 };
-
-module.exports = HelloCommandHandler;
 ```
 
-In this case, `token` is the bot token you wish to respond with (set up
-  as long as you've enabled a bot account on your team), `command` is an
-  Object containing the command details (information available
-    [here](https://api.slack.com/slash-commands)), `text` is the text content
-    following the command call (e.g. `hi you` from `/hello hi you`),
-    `reply` is a function that automatically `HTTP POST`s a message to the
-    command callback url, and `callback` is a function expecting two parameters
-    (`err, text`) which can return an error if `err` is specified, or calls
-    `reply` by default when `text` is specified.
+In this function, `user` and `channel` are strings representing the user and
+channel the command was called from. The contents of the command (text) are
+available in `text`, a full `command` object is available
+that contains all data passed from slack (https://api.slack.com/slash-commands),
+and a botToken for your Slack App's bot is passed in (if you want to use it
+  to post additional messages, upload files, etc.).
 
-Please note that for both `reply` and `callback`, the `text` variable can be an
-Object mapping to the chat.postMessage expected object (https://api.slack.com/methods/chat.postMessage)
-if you want more finely-tuned control over your response.
+The first parameter passed to `callback` is an error (if present), use `new Error()`
+when possible. The second parameter is a `chat.postMessage` object,
+more details can be found here: https://api.slack.com/methods/chat.postMessage.
 
 You can test the sample hello command on the command line by running
-`lib .commands --command /hello --text hi --channel general`.
 
-## Function: functions/events
+```shell
+$ lib .commands.hello test_user general "some text"
+```
+
+## Function: `functions/events/__main__.js`
 
 This is the main **Event Handler** function for handling public channel events
 from Slack's Event API: https://api.slack.com/events
 
-It triggers the `functions/handler` function with appropriate `event` details,
-asynchronously. Its goal is to return a 200 OK response as quickly
-as possible to avoid command handling duplication, and offload async (longer)
-requests to the logic you've custom-written.
+This function is triggered by slack at the following URL:
+`https://<username>.stdlib.com/<service>@<ver>/commands/:bg`
+
+Where `<username>` is your username, `<service>` is the service name and
+`<ver>` is the environment or semver release of your service. The `:bg`
+indicates you'd like this function to return an HTTP 2XX code as quickly
+
+You'll notice an `* @bg params` line in the comments for this function. This
+means, when executed as a background function, it will return a JSON object
+mapping to the parameters passed to it (which also passes Slack's `challenge`
+litmus test).
 
 ### Usage
 
-The default usage from the template provided is to handle channel messages.
-Channel event types (as specified by https://api.slack.com/events) will be
-delegated by `slack/handlers/event_handler.js` to the appropriate folder
-in `slack/events/`, in the case of a `message` event this would be:
-`slack/events/message`. Note there is a `handler.js` in `/slack/events/message/`
-to handle an event if there is no `subtype` (like a `bot_message`), or delegate
-to the appropriate subtype in `slack/events/message/subtypes/`.
+This function will delegate incoming commands to their appropriate handler,
+which can be placed in `functions/events/TYPE.js` or `functions/events/TYPE/__main__.js`
+as these are functionally equivalent. If there is a subtype involved,
+`functions/events/TYPE/SUBTYPE.js` or `functions/events/TYPE/SUBTYPE/__main__.js`
+will be invoked.
 
-By default your `slack/events/message/handler.js` should look like this:
+By default your `functions/events/message/__main__.js` should look like this:
 
 ```javascript
-function MessageEventHandler(token, event, text, callback) {
+module.exports = (user, channel, text = '', event = {}, botToken = null, callback) => {
 
-  // Handle subtype if available, otherwise do nothing
-  if (event.subtype) {
-
-    return subtypes[event.subtype] ? subtypes[event.subtype](token, event, text, callback) : callback();
-
+  // Only send a response to certain messages
+  if (text.match(/hey|hello|hi|sup/i)) {
+    callback(null, {
+      text: `Hey there! <@${user}> said ${text}`
+    });
+  } else {
+    callback(null, {});
   }
-
-  // Otherwise, handle as a plain message
-  if (!text) {
-    return callback(new Error('No message data'));
-  }
-
-  if (!text.match(/hi|hello|sup|hey/)) {
-    return callback(new Error('Command not recognized'));
-  }
-
-  return callback(null, `Hey there! <@${event.user}> said ${text}`);
 
 };
-
-module.exports = MessageEventHandler;
 ```
 
-We can see that if a subtype is provided, we delegate to that subtype (default
-  included is `channel_join`), otherwise, handle it as a typical channel message.
+In this function, `user` and `channel` are strings representing the user and
+channel the event was triggered by. The contents of the command (text) are
+available in `text`, a full `event` object is available
+that contains all data passed from slack (https://api.slack.com/events),
+and a botToken for your Slack App's bot is passed in (if you want to use it
+  to post additional messages, upload files, etc.).
 
-This handler receives four variables: `token`, `event`, `text`, and `callback`.
+The first parameter passed to `callback` is an error (if present), use `new Error()`
+when possible. The second parameter is a `chat.postMessage` object,
+more details can be found here: https://api.slack.com/methods/chat.postMessage.
 
-Please note that there is no `reply` function as is standard with Slash Commands,
-as Slack does not provide a URL to `HTTP POST` to in this case --- your bot
-will have to speak on its own.
+You can test the sample message event on the command line by running:
 
-In this case, `token` is your bot token (assuming you've set up a bot),
-`event` is the event object (https://api.slack.com/events), `text` is the
-text content of the message, and `callback` is a function that should be
-invoked to end the bot's response expecting `err, text` (see: Slash Command
-  `callback` above for usage expectations re: `chat.postMessage`.)
-
-You can test the default event handler from the command line by running:
-`lib .events --event message --text hi --channel general --user user`.
-
-## Function: functions/actions
-
-This is the main **Action Handler** function for handling Slack Actions from
-interactive messages. You can read more about them here:
-https://api.slack.com/docs/message-buttons.
-
-It triggers the `functions/handler` function with appropriate `action` details,
-asynchronously. Its goal is to return a 200 OK response as quickly
-as possible to avoid command handling duplication, and offload async (longer)
-requests to the logic you've custom-written.
-
-### Usage
-
-To add or modify Slash actions, you'll want to look in the directory
-`slack/actions/` and create files with the name
-`slack/actions/ACTION_NAME.js` where `ACTION_NAME` is your intended action. This
-action name will map directly to the `name` parameter you specify in an action
-in a created interactive message.
-
-The routing for actions can be found in `/slack/handlers/action_handler.js`.
-
-We've created a simple sample action named `example`. The code for this is
-below:
-
-```javascript
-function ExampleActionHandler(token, action, callback) {
-
-  callback(null, `<@${action.user.name}> responded to the example action`);
-
-};
-
-module.exports = ExampleActionHandler;
+```shell
+$ lib .events.message test_user general "hello"
 ```
-
-You would put logic you want to run in response to an action named "example"
-here.
-
-Here, `token` is again your bot token, `action` is the __payload__ of the action
-response object (see https://api.slack.com/message-buttons), and `callback` is a
-function that should be invoked to end the bot's response.
-
-Whatever you choose to return in the callback will __overwrite__ the
-original message -- most likely some kind of confirmation message. This value
-can be a simple string or an object that conforms to the spec set in
-`chat.update` (see https://api.slack.com/methods/chat.update. We automatically
-attach the token, ts, and channel params for you). You can also restore the
-original message in case of an error by returning Slack's `original_message`
-parameter, which will be present in the `action` parameter.
-
-You could create a interactive message that would trigger this handler as
-follows:
-
-```javascript
-const slack = require('slack');
-
-slack.chat.postMessage({
- token: process.env.BOT_TOKEN,
- channel: '#general',
- text: 'Respond to this',
- attachments: [{
-   text: 'Here is the action:',
-   actions: [
-     {
-       name: 'example',
-       text: 'Press me',
-       type: 'button'
-     }
-   ]
- }]
-}, (err, result) => {
- // Handle result
-});
-```
-
-You can test the example action locally from your command line by running:
-`lib .actions --action example --channel general --user user`.
-
-## Function: functions/handler
-
-This is merely an asynchronously called delegator from `functions/commands`,
-`functions/events`, and `functions/actions` to `slack/handlers/command_handler.js`,
-`slack/handlers/event_handler.js`, and `slack/handlers/action_handler.js`.
-
-It exists so that your main endpoints, `functions/commands`, `functions/events`,
-and `functions/actions` can return HTTP 200 OK responses as quickly as possible
-(no failure as far as Slack is concerned) and offload further processing in a
-new instance without having to worry about total response time.
 
 # Utilities
 
@@ -273,9 +173,8 @@ We'll go over a few of them;
 - update_message.js
 - respond.js
 - upload.js
-- storage.js
 
-## Utility: message.js
+## Utility: `utils/message.js`
 
 This function has a fingerprint of:
 
@@ -293,7 +192,7 @@ Use this function to get your bot to send messages to users or channels --- that
 it. The `token` field should be passed in any `slack/commands` or `slack/events`
 handlers.
 
-## Utility: update_message.js
+## Utility: `utils/update_message.js`
 
 This function has a fingerprint of:
 
@@ -310,7 +209,7 @@ that executes the call.
 
 Use this function to get your bot to update messages in channels.
 
-## Utility: respond.js
+## Utility: `utils/respond.js`
 
 Very similar to `message.js`, this is a Slash Command response that `HTTP POST`s
 a message to a webhook endpoint instead of creating a new bot message directly.
@@ -318,7 +217,7 @@ a message to a webhook endpoint instead of creating a new bot message directly.
 The benefits this has over `message.js`, is that Slash Commands can be used in
 private channels (or globally, within a team) where applicable.
 
-## Utility: upload.js
+## Utility: `utils/upload.js`
 
 Similar to `message.js`, this function has a fingerprint of:
 
@@ -331,9 +230,15 @@ Where `token` is your bot token, `channel` is the channel to upload a file to,
 (i.e. a string like `image/png`), file is a `Buffer` of file contents
 and `callback` is a function that can handle an optional `err` parameter.
 
-## Utility: storage.js
+# Helpers
 
-This is a storage utility based upon https://stdlib.com/utils/storage. It
+There are a few helper functions for message formatting, etc. Feel free to
+look at them at your leisure, we've documented `storage.js` to better understand
+how team data is stored.
+
+## Helper: `helpers/storage.js`
+
+This is a storage helper based upon https://stdlib.com/utils/storage. It
 is a basic key-value store that saves crucial team (including bot) details
 about each and every team its installed on, specific to the `SLACK_APP_NAME`
 field in your `env.json` and your StdLib (https://stdlib.com) account. You
@@ -343,5 +248,5 @@ multiple teams.
 
 # That's it!
 
-Hope that served as a welcoming (though very referential!) introduction to your
+We hope this has served as a welcoming introduction to your
 Slack App project scaffold on [StdLib](https://stdlib.com) --- happy building!

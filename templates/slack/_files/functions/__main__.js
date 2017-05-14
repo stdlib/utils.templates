@@ -1,5 +1,5 @@
 const ejs = require('ejs');
-const template = __dirname + '/../slack/pages/auth.ejs';
+const template = __dirname + '/../pages/index.ejs';
 
 const ENV = {
   SLACK_CLIENT_ID: process.env.SLACK_CLIENT_ID || '',
@@ -8,7 +8,9 @@ const ENV = {
 };
 
 /**
-* Add to Slack landing page
+* The "Add to Slack" landing page for your app.
+*   To modify the template, check out /pages/index.ejs.
+* @returns {buffer}
 */
 module.exports = (callback) => {
 

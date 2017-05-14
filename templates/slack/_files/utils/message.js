@@ -10,17 +10,17 @@ const formatMessage = require('./format_message.js');
 
 module.exports = (token, channel, text, callback) => {
 
+  let data = formatMessage(token, channel, text);
+
   if (!text) {
-    return callback(null, '');
+    return callback(null, data);
   }
 
   // If no token, assume development
   if (!token) {
     console.log('Warning: No token provided for message');
-    return callback(null, text);
+    return callback(null, data);
   }
-
-  let data = formatMessage(token, channel, text);
 
   if (data.attachments) {
     data.attachments = JSON.stringify(data.attachments);
@@ -46,7 +46,7 @@ module.exports = (token, channel, text, callback) => {
       return callback(new Error(body.error ? `Slack Error: ${body.error}` : 'Invalid JSON Response from Slack'));
     }
 
-    callback(null, text);
+    callback(null, data);
 
   });
 
