@@ -1,33 +1,13 @@
 import Vue from 'vue';
-import VueRouter from 'vue-router';
 
-import App from './components/App.vue';
-
-import HomePage from './components/pages/HomePage.vue';
-import TestPage from './components/pages/TestPage.vue';
-
-Vue.use(VueRouter);
-
-const router = new VueRouter({
-  mode: 'hash',
-  base: __dirname,
-  routes: [
-    {
-      path: '/',
-      component: HomePage
-    },
-    {
-      path: '/test',
-      component: TestPage
-    }
-  ]
-});
+import MainApp from './components/MainApp.vue';
+import Router from './router.js';
 
 new Vue({
-  router,
+  router: Router.getRouter(),
   el: '#app',
   components: {
-    app: App
+    'main-app': MainApp
   },
-  template: '<app></app>'
+  template: '<main-app></main-app>'
 });
