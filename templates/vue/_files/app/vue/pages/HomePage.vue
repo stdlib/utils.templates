@@ -1,12 +1,12 @@
 <template>
   <div>
     <p>
-      Thanks for taking the time to set up your Vue app using stdlib. We're
+      Thanks for taking the time to set up your Vue app using StdLib. We're
       happy to have you along for the ride! From here on out it should be pretty
       simple. Feel free to play around with these pages to build your own app.
     </p>
     <p>
-      The goal of stdlib is really to create the "Standard Library of the Internet"
+      The goal of StdLib is really to create the "Standard Library of the Internet"
       by allowing anybody to create indefinitely scalable, self-healing web
       applications without managing infrastructure. While there are a lot of
       computational use cases, we thought it would be fun to show people just
@@ -30,10 +30,10 @@
         <a href="https://twitter.com/youyuxi">Twitter &mdash; @youyuxi (Evan You)</a>
       </li>
     </ul>
-    <h3>stdlib</h3>
+    <h3>StdLib</h3>
     <ul>
       <li>
-        <a href="https://stdlib.com">stdlib &mdash; Function as a Service Software Library</a>
+        <a href="https://stdlib.com">StdLib &mdash; Function as a Service Software Library</a>
       </li>
       <li>
         <a href="https://github.com/poly/stdlib">GitHub &mdash; poly/stdlib</a>
@@ -48,7 +48,7 @@
     <hr>
     <h2>Tips</h2>
     <p>
-      There are a few things to keep in mind with your Vue App on stdlib;
+      There are a few things to keep in mind with your Vue App on StdLib;
     </p>
     <ul>
       <li>
@@ -56,7 +56,7 @@
       </li>
       <li>
         Static files (in your <pre>app/static/{path}</pre> folder in development)
-        can be accessed via the url <pre>static/path={path}</pre> when written
+        can be accessed via the url <pre>static/{path}</pre> when written
         in HTML templates.
       </li>
       <li>

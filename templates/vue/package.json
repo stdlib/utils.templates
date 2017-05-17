@@ -23,7 +23,6 @@
     "webpack": "^2.3.3"
   },
   "stdlib": {
-    "defaultFunction": "main",
     "scripts": {
       "+http": "cross-env NODE_ENV=dev webpack --hide-modules --watch",
       "preup": "cross-env NODE_ENV=production webpack --progress --hide-modules"

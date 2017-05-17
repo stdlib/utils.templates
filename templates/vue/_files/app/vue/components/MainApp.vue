@@ -42,9 +42,9 @@
       Welcome to your Vue App on stdlib!
     </h1>
     <div class="love">
-      <img src="static/?path=vue_logo.png" style="height: 32px;">
+      <img src="static/vue_logo.png" style="height: 32px;">
       +
-      <img src="static/?path=stdlib.png" style="height: 32px;">
+      <img src="static/stdlib.png" style="height: 32px;">
       = <span class="heart">&lt;3</span>
     </div>
     <hr>
