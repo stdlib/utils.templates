@@ -1,5 +1,5 @@
 const twilio = require('twilio');
-const ForwardTo = process.env.FORWARD_NUMBER;
+const ForwardTo = process.env.CALL_FORWARD_NUMBER;
 
 /**
 * Main voice handler. Upon receiving a call, outputs a TwiML response
