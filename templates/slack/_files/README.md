@@ -24,7 +24,7 @@ We'll go through these in the order listed here.
 
 ## Function: `functions/__main__.js`
 
-This is your main endpoint, corresponding to `https://username.stdlib.com/service/`.
+This is your main endpoint, corresponding to `https://username.lib.id/service/`.
 This is, of course, where `username` is your username and `service` is your service
 name.
 
@@ -34,9 +34,9 @@ for a specific directory.
 
 Note that when pushing to a development environment (or if you want to access
   a specific version), this should be reached via:
-  `https://username.stdlib.com/service@dev/main` (if your dev environment is called
+  `https://username.lib.id/service@dev/main` (if your dev environment is called
   `dev`, also the default local environment name) or
-  `https://username.stdlib.com/service@0.0.0/main` (if your version is 0.0.0).
+  `https://username.lib.id/service@0.0.0/main` (if your version is 0.0.0).
 
 ### Usage
 
@@ -60,7 +60,7 @@ This is the main **Command Handler** function for handling Slack Slash Commands.
 You can read more about them here: https://api.slack.com/slash-commands
 
 This function is triggered by slack at the following URL:
-`https://<username>.stdlib.com/<service>@<ver>/commands/:bg`
+`https://<username>.lib.id/<service>@<ver>/commands/:bg`
 
 Where `<username>` is your username, `<service>` is the service name and
 `<ver>` is the environment or semver release of your service. The `:bg`
@@ -111,7 +111,7 @@ This is the main **Event Handler** function for handling public channel events
 from Slack's Event API: https://api.slack.com/events
 
 This function is triggered by slack at the following URL:
-`https://<username>.stdlib.com/<service>@<ver>/commands/:bg`
+`https://<username>.lib.id/<service>@<ver>/commands/:bg`
 
 Where `<username>` is your username, `<service>` is the service name and
 `<ver>` is the environment or semver release of your service. The `:bg`
