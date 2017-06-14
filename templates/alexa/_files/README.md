@@ -3,7 +3,7 @@
 This is a template for your StdLib Alexa Skill.
 
 It's easy to get started, to create a new intent simply create a file
-with the name of your intent in `./alexa/intents/`.
+with the name of your intent in `./functions/intents/`.
 
 You'll see a sample `HelloWorld` intent already in there (the name is
   matched without the `.js` file.)
@@ -11,9 +11,12 @@ You'll see a sample `HelloWorld` intent already in there (the name is
 ## Sample Intent: HelloWorld
 
 ```javascript
-const lib = require('lib');
-
-module.exports = function (slots, callback) {
+/**
+* @param {string} name Intent Name (Automatically Populated by Handler)
+* @param {object} slots Slot Information, {name, value}
+* @returns {any}
+*/
+module.exports = (name = '', slots = {}, callback) => {
 
   return callback(null, `Hello World`);
 
