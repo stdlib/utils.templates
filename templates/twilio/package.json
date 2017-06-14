@@ -3,7 +3,7 @@
     "build": "faaslang"
   },
   "dependencies": {
-    "lib": "^3.0.0",
+    "lib": "^3.0.1",
     "request": "^2.81.0",
     "twilio": "^3.3.0"
   }
