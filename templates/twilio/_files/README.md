@@ -26,8 +26,8 @@ We'll go through these in the order listed here.
 
 ## Function: `functions/__main__.js`
 
-This is your main endpoint, corresponding to `https://username.stdlib.com/service/`.
-This is, of course, where `username` is your username and `service` is your service
+This is your main endpoint, corresponding to `https://<username>.lib.id/<service>/`.
+This is, of course, where `<username>` is your username and `<service>` is your service
 name.
 
 Any time a function has the filename `__main__.js`, the enclosing folder is
@@ -36,9 +36,9 @@ for a specific directory.
 
 Note that when pushing to a development environment (or if you want to access
   a specific version), this should be reached via:
-  `https://username.stdlib.com/service@dev/main` (if your dev environment is called
+  `https://username.lib.id/service@dev/main` (if your dev environment is called
   `dev`, also the default local environment name) or
-  `https://username.stdlib.com/service@0.0.0/main` (if your version is 0.0.0).
+  `https://username.lib.id/service@0.0.0/main` (if your version is 0.0.0).
 
 ### Usage
 
@@ -55,10 +55,10 @@ You'll set your Twilio Webhook handler to accept this using the URL:
 
 ```
 dev environment:
-http://username.stdlib.com/service@dev/voice/
+http://username.lib.id/service@dev/voice/
 
 production:
-http://username.stdlib.com/service/voice/
+http://username.lib.id/service/voice/
 ```
 
 Where `username` is your StdLib username and `service` is the name of this
@@ -77,10 +77,10 @@ Twilio. You'll set your Twilio Webhook handler to accept this using the URL:
 
 ```
 dev environment:
-http://username.stdlib.com/service@dev/messaging/
+http://username.lib.id/service@dev/messaging/
 
 production:
-http://username.stdlib.com/service/messaging/
+http://username.lib.id/service/messaging/
 ```
 
 Where `username` is your StdLib username and `service` is the name of this
