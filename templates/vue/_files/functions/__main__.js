@@ -6,9 +6,13 @@ let index = fs.existsSync(filepath) ?
   fs.readFileSync(filepath) :
   new Buffer('No index.html specified');
 
-module.exports = (params, callback) => {
+/**
+ * Serves index.html for dashboard.
+ * @return {Buffer}
+ */
+module.exports = (context, callback) => {
 
-  if (params.env === 'dev') {
+  if (context.service && context.service.environment === 'local') {
 
     index = fs.existsSync(filepath) ?
       fs.readFileSync(filepath) :
@@ -16,10 +20,6 @@ module.exports = (params, callback) => {
 
   }
 
-  if (params.kwargs.hasOwnProperty('env')) {
-    return callback(null, new Buffer(`var env = ${JSON.stringify(process.env)};`), {'Content-Type': 'application/javascript'});
-  } else {
-    return callback(null, index, {'Content-Type': 'text/html; charset=utf-8'});
-  }
+  return callback(null, index, {'Content-Type': 'text/html; charset=utf-8'});
 
 };

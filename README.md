@@ -42,8 +42,10 @@ $ lib create -t <template> -d localhost:8170
 ```
 
 This will create a new app based on the template by pulling it from the 'lib http'
-process. From there you can run 'lib http -p 8080' to test the new app instance via
-localhost:8080.
+process. From there you can run `lib http -p 8080` to test the new app instance
+by navigating to `localhost:8080/{service name}`. For example, if you created a
+service called "stdlib/test", you would access your new app instance at
+`localhost:8080/stdlib/test`.
 
 If you make changes to your template then restart the 'lib http' process running
 under utils.templates, delete your app instance and recreate it by running the
