@@ -21,7 +21,7 @@ module.exports = (name = '', slots = {}, request = {}, context, callback) => {
     return callback(new Error('Intent name is required'));
   }
 
-  let params = Object.keys(request.intent.slots).reduce((params, key) => {
+  let params = Object.keys(request.intent.slots || {}).reduce((params, key) => {
     params[key] = request.intent.slots[key].value;
     return params;
   }, {});
