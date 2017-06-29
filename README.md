@@ -75,6 +75,14 @@ Slack Apps are supported via `slack`.
 $ lib create -t slack
 ```
 
+### Twilio Messaging Hubs
+
+Twilio Messaging Hubs are supported via `twilio`.
+
+```bash
+$ lib create -t twilio
+```
+
 ### Vue.js
 
 [Vue](https://vuejs.org) is supported via `vue`.
