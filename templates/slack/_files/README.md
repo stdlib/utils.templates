@@ -13,12 +13,13 @@ messages.
 
 The first thing you'll probably notice is your `functions/` directory. This is
 your StdLib function directory which maps directly to HTTP endpoints. There are
-four main functions in your Slack App:
+five main functions in your Slack App:
 
 - `__main__.js`
 - `auth.js`
 - `commands/__main__.js`
 - `events/__main__.js`
+- `actions/__main__.js`
 
 We'll go through these in the order listed here.
 
@@ -111,11 +112,12 @@ This is the main **Event Handler** function for handling public channel events
 from Slack's Event API: https://api.slack.com/events
 
 This function is triggered by slack at the following URL:
-`https://<username>.lib.id/<service>@<ver>/commands/:bg`
+`https://<username>.lib.id/<service>@<ver>/events/:bg`
 
 Where `<username>` is your username, `<service>` is the service name and
 `<ver>` is the environment or semver release of your service. The `:bg`
-indicates you'd like this function to return an HTTP 2XX code as quickly
+indicates you'd like this function to return an HTTP 2XX code as quickly as
+possible.
 
 You'll notice an `* @bg params` line in the comments for this function. This
 means, when executed as a background function, it will return a JSON object
@@ -124,7 +126,7 @@ litmus test).
 
 ### Usage
 
-This function will delegate incoming commands to their appropriate handler,
+This function will delegate incoming events to their appropriate handler,
 which can be placed in `functions/events/TYPE.js` or `functions/events/TYPE/__main__.js`
 as these are functionally equivalent. If there is a subtype involved,
 `functions/events/TYPE/SUBTYPE.js` or `functions/events/TYPE/SUBTYPE/__main__.js`
@@ -151,7 +153,7 @@ In this function, `user` and `channel` are strings representing the user and
 channel the event was triggered by. The contents of the command (text) are
 available in `text`, a full `event` object is available
 that contains all data passed from slack (https://api.slack.com/events),
-and a botToken for your Slack App's bot is passed in (if you want to use it
+and a `botToken` for your Slack App's bot is passed in (if you want to use it
   to post additional messages, upload files, etc.).
 
 The first parameter passed to `callback` is an error (if present), use `new Error()`
@@ -162,6 +164,107 @@ You can test the sample message event on the command line by running:
 
 ```shell
 $ lib .events.message test_user general "hello"
+```
+
+## Function: `functions/actions/__main__.js`
+
+This is the main **Action Handler** function for handling Slack Actions from
+interactive messages. You can read more about actions and interactive messages
+here: https://api.slack.com/docs/message-buttons.
+
+This function is triggered by slack at the following URL:
+`https://<username>.lib.id/<service>@<ver>/actions/:bg`
+
+Where `<username>` is your username, `<service>` is the service name and
+`<ver>` is the environment or semver release of your service. The `:bg`
+indicates you'd like this function to return an HTTP 2XX code as quickly as
+possible.
+
+### Usage
+
+This function will delegate incoming actions to their appropriate handler,
+which should be placed in `functions/actions/NAME.js`.
+
+We've included a simple sample handler for an action named `example`. The code
+for this is below:
+
+```javascript
+module.exports = (user, channel, action = {}, botToken = null, callback) => {
+
+  callback(null, {
+    text: `Hello, <@${user}>!\nThis text will overwrite the original interactive message`,
+    attachments: [{
+      text: 'Try hitting this endpoint again by clicking the button!',
+      fallback: 'Can\'t display attachment',
+      callback_id: 'callback_id',
+      actions: [
+        {
+          name: 'example',
+          text: 'Refresh',
+          type: 'button',
+          value: 'value'
+        }
+      ]
+    }]
+  });
+
+};
+```
+
+In this function, `user` and `channel` are again strings representing the user
+and channel the event was triggered by. A full `action` object is available
+that contains all data passed from Slack
+(https://api.slack.com/docs/interactive-message-field-guide#action_payload),
+and a `botToken` for your Slack App's bot is passed in (if you want to use it
+  to post additional messages, upload files, etc.).
+
+The first parameter passed to `callback` is an error (if present), use `new Error()`
+when possible. The second parameter is a `chat.updateMessage` object,
+more details can be found here: https://api.slack.com/methods/chat.update.
+
+Whatever you choose to return in the second callback parameter will
+__overwrite__ the original message. This parameter could be a confirmation
+message or another call to action. This value can be a simple string or an
+object that conforms to the spec set in `chat.update`
+(see https://api.slack.com/methods/chat.update. We automatically
+attach the token, ts, and channel params for you outside of this handler). You
+can also restore the original message in case of an error by returning Slack's
+`original_message` parameter, which will be present in the `action` parameter.
+
+You could create a interactive message that would trigger this handler with the
+following Javascript code (you will have to run `npm install slack --save`
+first):
+
+```javascript
+const slack = require('slack');
+
+slack.chat.postMessage({
+ token: process.env.BOT_TOKEN,
+ channel: '#general',
+ text: 'Respond to this',
+ attachments: [{
+   text: 'Here is the action:',
+   actions: [
+     {
+       name: 'example',
+       text: 'Press me',
+       type: 'button'
+     }
+   ]
+ }]
+}, (err, result) => {
+ // Handle result
+});
+```
+
+You can retrieve your bot token from the OAuth and Permissions section of your
+Slack dashboard.
+
+Additionally, you can test the example action locally from your command line by
+running:
+
+```shell
+lib .actions --action example --channel general --user user
 ```
 
 # Utilities

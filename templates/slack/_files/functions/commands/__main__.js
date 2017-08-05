@@ -5,7 +5,7 @@ const respond = require('../../utils/respond.js');
 
 /**
 * Slack Slash Command Handler:
-*   This function receives slash command from Slack and dispatches
+*   This function receives slash commands from Slack and dispatches
 *   the appropriate handler. You should use this function as the endpoint
 *   for all commands, and place commands in /functions/commands/NAME.js,
 *   where NAME is the name of your command.
