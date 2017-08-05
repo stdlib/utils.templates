@@ -39,10 +39,7 @@ module.exports = (token, channel, text) => {
   } else if (text && typeof text === 'object') {
     data = FIELDS.reduce((data, f) => {
       if (f in text) {
-        if (typeof text[f] === 'object') {
-          text[f] = JSON.stringify(text[f]);
-        }
-        data[f] = text[f];
+        data[f] = text[f]
       }
       return data;
     }, data);
