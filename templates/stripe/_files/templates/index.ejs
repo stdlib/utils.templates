@@ -1,0 +1,86 @@
+<!DOCTYPE HTML>
+<html>
+  <head>
+    <title>My Stripe x StdLib "Serverless" Store</title>
+    <link href="./static/style.css" rel="stylesheet">
+    <script src="./static/lib.js"></script>
+    <script src="./static/script.js"></script>
+    <script src="https://js.stripe.com/v3/"></script>
+    <script src="https://checkout.stripe.com/checkout.js"></script>
+    <script>
+      var GLOBALS = {
+        SERVICE_PATH: '<%- servicePath %>',
+        STRIPE_PUBLISHABLE_KEY: '<%- stripePublishableKey %>'
+      };
+
+      var stripe = Stripe(GLOBALS.STRIPE_PUBLISHABLE_KEY);
+      var stripeHandler = StripeCheckout.configure({
+        key: GLOBALS.STRIPE_PUBLISHABLE_KEY,
+        image: './static/images/stdlib-logo.png',
+        locale: 'auto'
+      });
+    </script>
+  </head>
+  <body>
+    <div class="stripe">
+      <%- include('dialog') %>
+      <div class="nav">
+        <div class="links">
+          <a href="https://dashboard.stripe.com/dashboard" target="_blank">Stripe Dashboard</a>
+          <a href="https://stdlib.com" target="_blank">StdLib</a>
+        </div>
+        <div class="company">
+          <a href="https://stdlib.com" class="no-change" target="_blank">
+            <img class="logo" src="./static/images/stdlib-logo-wordmark-light.svg">
+          </a>
+          <a href="https://stripe.com" class="no-change" target="_blank">
+            <img class="powered" src="./static/images/powered-by-stripe.svg">
+          </a>
+        </div>
+        <div class="about">
+          <div class="title">
+            Easy to set up, limitless opportunity
+          </div>
+          <div class="description">
+            Welcome to your Stripe Storefront, brought to you by StdLib.<br>
+            The first fully-configurable, developer-first, "serverless" online
+            retail resource.<br><br>
+            To get started, you can edit this title and description
+            in <code>./static/components/index.ejs</code> &mdash; have fun!
+          </div>
+        </div>
+      </div>
+      <div class="storefront">
+        <% if (error) { %>
+          <div class="error">
+            An error was encountered:<br><br>
+            <%- error %>
+          </div>
+        <% } else if (!products.length) { %>
+          <div class="error">
+            It doesn't look like you have any products set up.<br><br>
+            <a href="https://dashboard.stripe.com/test/products" target="_blank">Click here</a>
+            to add some to your test environment.<br>
+            If this is meant for production,
+            <a href="https://dashboard.stripe.com/products" target="_blank">click here</a> instead.
+          </div>
+        <% } else { %>
+          <% products.forEach(function(product) { %>
+            <%- include('product', {product: product}); %>
+          <% }); %>
+        <% } %>
+      </div>
+      <div class="end">
+        <div class="by">
+          This store is powered by <a href="https://stripe.com/" target="_blank">Stripe</a> and
+          brought to you by <a href="https://stdlib.com" target="_blank">StdLib</a>.
+        </div>
+        <div class="tm">
+          The Stripe name and logos are trademarks or service marks of Stripe, Inc.
+          or its affiliates in the U.S. and other countries.
+          Other names may be trademarks of their respective owners.
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

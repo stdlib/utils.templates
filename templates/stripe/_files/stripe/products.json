@@ -1,0 +1,110 @@
+{
+  "Pokemon Shorts": {
+    "description": "Hi! I like shorts! They're comfy and easy to wear!",
+    "shippable": true,
+    "images": [
+      "./static/products/shorts.jpg"
+    ],
+    "skus": [
+      {
+        "currency": "usd",
+        "price": 899,
+        "inventory": {
+          "type": "infinite"
+        },
+        "attributes": {
+          "size": "S",
+          "color": "blue"
+        }
+      },
+      {
+        "currency": "usd",
+        "price": 999,
+        "inventory": {
+          "type": "finite",
+          "quantity": 10
+        },
+        "attributes": {
+          "size": "M",
+          "color": "blue"
+        }
+      },
+      {
+        "currency": "usd",
+        "price": 1099,
+        "inventory": {
+          "type": "bucket",
+          "value": "limited"
+        },
+        "attributes": {
+          "size": "L",
+          "color": "blue"
+        }
+      },
+      {
+        "currency": "usd",
+        "price": 1099,
+        "inventory": {
+          "type": "bucket",
+          "value": "out_of_stock"
+        },
+        "attributes": {
+          "size": "XL",
+          "color": "blue"
+        }
+      }
+    ]
+  },
+  "Patterned Socks": {
+    "description": "Socks are warm on your footsies.",
+    "shippable": true,
+    "images": [
+      "./static/products/slack_socks.png"
+    ],
+    "skus": [
+      {
+        "currency": "usd",
+        "price": 2999,
+        "image": "./static/products/slack_socks.png",
+        "inventory": {
+          "type": "bucket",
+          "value": "limited"
+        },
+        "attributes": {
+          "pattern": "Slack"
+        }
+      },
+      {
+        "currency": "usd",
+        "price": 1999,
+        "image": "./static/products/stripe_socks.jpg",
+        "inventory": {
+          "type": "infinite"
+        },
+        "attributes": {
+          "pattern": "Stripe"
+        }
+      }
+    ]
+  },
+  "Sneakers": {
+    "description": "Limited Edition",
+    "shippable": true,
+    "images": [
+      "./static/products/twilio_shoes.jpg"
+    ],
+    "skus": [
+      {
+        "currency": "usd",
+        "price": 5999,
+        "inventory": {
+          "type": "bucket",
+          "value": "limited"
+        },
+        "attributes": {
+          "edition": "Twilio"
+        }
+      }
+    ]
+  }
+}

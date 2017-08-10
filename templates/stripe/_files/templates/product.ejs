@@ -1,0 +1,72 @@
+<div class="product"
+  data-id="<%- product.id %>"
+  data-name="<%- product.name %>"
+  data-description="<%- product.description %>"
+  data-shippable="<%- Number(product.shippable) %>">
+  <div class="header">
+    <div class="name">
+      <%= product.name %>
+    </div>
+  </div>
+  <div class="info">
+    <% if ((product.skus.data.filter(function(sku) { return sku.active; }).shift() || {}).image) { %>
+      <div class="image"
+        style="background-image: url('<%- product.skus.data.filter(function(sku) { return sku.active; }).shift().image %>');"
+        data-default="<%- product.images[0] %>">
+      </div>
+    <% } else { %>
+      <div class="image"
+        style="background-image: url('<%- product.images[0] %>');"
+        data-default="<%- product.images[0] %>">
+      </div>
+    <% } %>
+    <div class="price"></div>
+    <div class="description">
+      <%- product.description %>
+    </div>
+  </div>
+  <div class="footer">
+    <% if (
+    product.skus &&
+    product.skus.data &&
+    product.skus.data.filter(function(sku) {
+      return sku.active &&
+        !(sku.inventory.quantity === 0 || sku.inventory.value === 'out_of_stock');
+    }).length) { %>
+      <div>
+        <select class="sku" name="sku">
+          <% product.skus.data.filter(function(sku) { return sku.active; }).forEach(function(sku) { %>
+            <option value="<%- sku.id %>,<%- sku.price %>,<%- sku.image %>"
+              <% if (sku.inventory.quantity === 0 || sku.inventory.value === 'out_of_stock') { %>
+                disabled
+              <% } %>
+            >
+              <%-
+                product.attributes.map(function(attribute) {
+                  return attribute + ': ' + sku.attributes[attribute]
+                }).join(', ');
+              %>, $<%- (sku.price / 100).toFixed(2) %>
+              <% if (sku.inventory.quantity === 0 || sku.inventory.value === 'out_of_stock') { %>
+                &mdash; OUT OF STOCK
+              <% } else if (sku.inventory.value === 'limited') { %>
+                &mdash; Limited Stock
+              <% } else if (sku.inventory.quantity > 0) { %>
+                &mdash; <%- sku.inventory.quantity %> Remaining
+              <% } %>
+            </option>
+          <% }); %>
+        </select>
+      </div>
+      <div>
+        <button class="button" name="order">
+          Place Order
+        </button>
+      </div>
+    <% } else { %>
+      <div class="out-of-stock">
+        Currently Unavailable,<br>
+        Check Back Soon
+      </div>
+    <% } %>
+  </div>
+</div>
