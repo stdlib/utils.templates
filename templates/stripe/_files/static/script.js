@@ -60,7 +60,7 @@ window.addEventListener('DOMContentLoaded', function() {
 
           startLoading();
 
-          lib[GLOBALS.SERVICE_PATH + '.order']({
+          lib(GLOBALS.SERVICE_PATH + '.order')({
             skuId: skuId,
             stripeToken: stripeToken,
             shippingInfo: shippingInfo
