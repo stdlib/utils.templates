@@ -25,6 +25,10 @@ module.exports = (token, channel, ts, message, callback) => {
   message.ts = ts;
   let data = formatMessage(token, channel, message);
 
+  if (data.attachments) {
+    data.attachments = JSON.stringify(data.attachments);
+  }
+
   request.post({
     uri: 'https://slack.com/api/chat.update',
     form: data

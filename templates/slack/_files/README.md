@@ -173,7 +173,9 @@ interactive messages. You can read more about actions and interactive messages
 here: https://api.slack.com/docs/message-buttons.
 
 This function is triggered by slack at the following URL:
-`https://<username>.lib.id/<service>@<ver>/actions/:bg`
+`https://<username>.lib.id/<service>@<ver>/actions/:bg`.
+You should add this URL to the interactive messages section of your Slack app
+dashboard.
 
 Where `<username>` is your username, `<service>` is the service name and
 `<ver>` is the environment or semver release of your service. The `:bg`
@@ -266,6 +268,9 @@ running:
 ```shell
 lib .actions --action example --channel general --user user
 ```
+
+**Note:** Your action handlers will only work with messages created via the
+`slack.chat.postMessage` API call.
 
 # Utilities
 

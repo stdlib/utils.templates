@@ -22,7 +22,7 @@ module.exports = (user, channel, action = {}, botToken = null, callback) => {
   // convert them into strings.
   callback(null, {
     text: `Hello, <@${user}>!\nThis text will overwrite the original interactive message`,
-    attachments: JSON.stringify([{
+    attachments: [{
       text: 'Try hitting this endpoint again by clicking the button!',
       fallback: 'Can\'t display attachment',
       callback_id: 'callback_id',
@@ -34,7 +34,7 @@ module.exports = (user, channel, action = {}, botToken = null, callback) => {
           value: 'value'
         }
       ]
-    }])
+    }]
   });
 
 };
