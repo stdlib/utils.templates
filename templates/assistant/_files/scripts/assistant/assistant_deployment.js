@@ -31,7 +31,7 @@ class AssistantDeployment {
 
   /**
   * Constructor class, sets necessary variables and handles process exceptions
-  * @return {AssistantDeployment}
+  * @returns {AssistantDeployment}
   */
   constructor(env, version) {
 
@@ -65,7 +65,7 @@ class AssistantDeployment {
 
   /**
   * Reads your Assistant Credentials from `assistant.json`
-  * @return {Object}
+  * @returns {Object}
   */
   readAssistantCredentials() {
     try {
@@ -77,7 +77,7 @@ class AssistantDeployment {
 
   /**
   * Reads your last created Assistant Action Package from `assistant.json`
-  * @return {Object}
+  * @returns {Object}
   */
   readAssistantActionPackage() {
     try {
@@ -90,7 +90,7 @@ class AssistantDeployment {
   /**
   * Writes new credentials to `assistant.json`
   * @param {Object} credentials Expected to contain "access_token" and "refresh_token"
-  * @return {Object}
+  * @returns {Object}
   */
   writeAssistantCredentials(credentials) {
     return (fs.writeFileSync(
@@ -105,7 +105,7 @@ class AssistantDeployment {
   /**
   * Writes new Action Package data to `assistant.json`
   * @param {Object} actionPackage Expected to contain "name"
-  * @return {Object}
+  * @returns {Object}
   */
   writeAssistantActionPackage(actionPackage) {
     return (fs.writeFileSync(
@@ -120,7 +120,7 @@ class AssistantDeployment {
   /**
   * Updates credentials in `assistant.json`
   * @param {Object} credentials Expected to contain "access_token"
-  * @return {Object}
+  * @returns {Object}
   */
   updateAssistantCredentials(credentials) {
     return this.writeAssistantCredentials(
@@ -135,7 +135,7 @@ class AssistantDeployment {
   * Handles procedural errors (including uncaught exceptions)
   * @param {Error} err Error object to log details
   * @param {Boolean} debug Optional. Show stack trace (for uncaught exceptions)
-  * @return {undefined}
+  * @returns {undefined}
   */
   error(err, debug) {
 
@@ -147,7 +147,7 @@ class AssistantDeployment {
 
   /**
   * Completes the running process without errors (signalCode: 0)
-  * @return {undefined}
+  * @returns {undefined}
   */
   complete() {
 
@@ -160,7 +160,7 @@ class AssistantDeployment {
   * Creates (requests) a new access token, either from previous refresh token
   *   or begins a new OAuth flow (expected to be used with command line)
   * @param {Function} callback Callback expecting (Error, accessToken)
-  * @return {undefined}
+  * @returns {undefined}
   */
   createAccessToken(callback) {
 
@@ -178,7 +178,7 @@ class AssistantDeployment {
   * Refreshes access token from a refresh token
   * @param {String} refreshToken Your OAuth refresh_token
   * @param {Function} callback Callback expecting (Error, accessToken)
-  * @return {undefined}
+  * @returns {undefined}
   */
   refreshAccessToken(refreshToken, callback) {
 
@@ -198,7 +198,7 @@ class AssistantDeployment {
   * Renews access token by beginning a new OAuth flow, expected to be used
   *   with the command line
   * @param {Function} callback Callback expecting (Error, accessToken)
-  * @return {undefined}
+  * @returns {undefined}
   */
   renewAccessToken(callback) {
 
@@ -239,7 +239,7 @@ class AssistantDeployment {
   * @param {String} accessToken Your OAuth Access Token
   * @param {Object} actionPackage Your actionPackage
   * @param {Function} callback Callback expecting (Error, actionPackage)
-  * @return {undefined}
+  * @returns {undefined}
   */
   createActionPackage(accessToken, actionPackage, callback) {
 
@@ -262,7 +262,7 @@ class AssistantDeployment {
   * Shortcut method to retrieve Access Token from `assistant.json`,
   *   intended to be used after `createAccessToken` has been called in a
   *   multi-step deployment process.
-  * @return {String} accessToken
+  * @returns {String} accessToken
   */
   getAccessToken() {
 
@@ -274,7 +274,7 @@ class AssistantDeployment {
   * Shortcut method to retrieve Action Package from `assistant.json`,
   *   intended to be used after `createAccessToken` has been called in a
   *   multi-step deployment process. Simple alias of `readAssistantActionPackage`
-  * @return {Object} actionPackage
+  * @returns {Object} actionPackage
   */
   getActionPackage() {
 
@@ -289,7 +289,7 @@ class AssistantDeployment {
   * @param {String} accessToken Your OAuth Access Token
   * @param {String} actionPackage Your Action Package
   * @param {Function} callback Callback expecting (Error, actionPackage)
-  * @return {undefined}
+  * @returns {undefined}
   */
   previewActionPackage(accessToken, actionPackage, callback) {
 
@@ -314,7 +314,7 @@ class AssistantDeployment {
   * @param {String} accessToken Your OAuth Access Token
   * @param {String} query Your Request to Google Assisant
   * @param {Function} callback Callback expecting (Error, actionPackage)
-  * @return {undefined}
+  * @returns {undefined}
   */
   simulateConversation(accessToken, query, callback) {
 
@@ -332,7 +332,7 @@ class AssistantDeployment {
   * @param {String} accessToken Your OAuth Access Token
   * @param {String} actionPackage Your Action Package
   * @param {Function} callback Callback expecting (Error, actionPackage)
-  * @return {undefined}
+  * @returns {undefined}
   */
   submitActionPackage(accessToken, actionPackage, callback) {
 

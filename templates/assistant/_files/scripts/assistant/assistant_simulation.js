@@ -18,7 +18,7 @@ class AssistantSimulation {
   * Optionally pass in names for conversation
   * @param {String} name Your name
   * @param {String} assistantName the name of the Google Assisant
-  * @return {AssistantSimulation}
+  * @returns {AssistantSimulation}
   */
   constructor(name, assistantName) {
 
@@ -54,7 +54,7 @@ class AssistantSimulation {
 
   /**
   * Turns on debug mode
-  * @return {Boolean} true
+  * @returns {Boolean} true
   */
   debug() {
     return (this._debug = true);
@@ -62,7 +62,7 @@ class AssistantSimulation {
 
   /**
   * Turns on debug mode
-  * @return {Boolean} true
+  * @returns {Boolean} true
   */
   silence() {
     return (this._silent = true);
@@ -70,7 +70,7 @@ class AssistantSimulation {
 
   /**
   * Begins the simulation
-  * @return {undefined}
+  * @returns {undefined}
   */
   start() {
 
@@ -113,7 +113,7 @@ class AssistantSimulation {
   /**
   * Ends the Simulation
   * @param {Boolean} ignoreMessage Set to true to prevent saying "Goodbye!"
-  * @return {undefined}
+  * @returns {undefined}
   */
   end(ignoreMessage) {
 
@@ -134,7 +134,7 @@ class AssistantSimulation {
   * Formats names for Terminal chat messages
   * @param {String} name
   * @param {String} color chalk color to use
-  * @return {String}
+  * @returns {String}
   */
   formatName(name, color) {
     return `${chalk.bold.grey('[')}${chalk.bold[color](name)}${chalk.bold.grey(']')} `;
@@ -143,7 +143,7 @@ class AssistantSimulation {
   /**
   * Clears current process.stdout line, optionally writes String
   * @param {String} str
-  * @return {undefined}
+  * @returns {undefined}
   */
   resetLine(str) {
     str || process.stdout.clearLine();
@@ -153,7 +153,7 @@ class AssistantSimulation {
 
   /**
   * Begins a waiting indicator (animated in this.animations)
-  * @return {undefined}
+  * @returns {undefined}
   */
   startWait() {
     if (this._waitInterval) {
@@ -167,7 +167,7 @@ class AssistantSimulation {
 
   /**
   * Ends waiting indicator
-  * @return {undefined}
+  * @returns {undefined}
   */
   endWait() {
     if (!this._waitInterval) {
@@ -182,7 +182,7 @@ class AssistantSimulation {
   * Plays audio file from base64-encoded MP3 in terminal with `afplay`
   *   will silently fail if there's an error
   * @param {String} b64data Base64-encoded raw MP3 data
-  * @return {undefined}
+  * @returns {undefined}
   */
   playAudio(b64data) {
 
@@ -206,7 +206,7 @@ class AssistantSimulation {
   /**
   * Requests chat input from user, also handles all subsequent chat flow.
   *   Recursively calls itself on completion.
-  * @return {undefined}
+  * @returns {undefined}
   */
   input() {
 

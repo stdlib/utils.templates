@@ -8,7 +8,7 @@ let index = fs.existsSync(filepath) ?
 
 /**
  * Serves index.html for dashboard.
- * @return {Buffer}
+ * @returns {Buffer}
  */
 module.exports = (context, callback) => {
 

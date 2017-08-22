@@ -9,7 +9,7 @@ let staticFiles = fileio.readFiles(filepath);
 /**
  * This endpoint handles all routes to `/static` over HTTP, and maps them to the
  *  `./static` service folder
- * @return {Buffer}
+ * @returns {Buffer}
  */
 module.exports = (context, callback) => {
 

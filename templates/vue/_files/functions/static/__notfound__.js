@@ -8,7 +8,7 @@ let staticFiles = helper.readFiles(filepath);
 
 /**
  * Endpoint that serves static files.
- * @return {Buffer}
+ * @returns {Buffer}
  */
 module.exports = (context, callback) => {
 
